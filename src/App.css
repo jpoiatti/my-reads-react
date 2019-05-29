@@ -76,7 +76,7 @@ body, .app {
 /* search page */
 
 .search-books-bar {
-  position: fixed;
+  position: sticky;
   width: 100%;
   top: 0;
   left: 0;
@@ -98,7 +98,7 @@ body, .app {
   outline: none;
 }
 
-.close-search {
+.close-search button{
   display: block;
   top: 20px;
   left: 15px;
@@ -120,6 +120,28 @@ button:active {
 
 .search-books-results {
   padding: 80px 10px 20px;
+}
+
+.clear-search {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+}
+
+.clear-search button {
+  display: block;
+  width: 60px;
+  height: 50px;
+  border-radius: 2%;
+  background: #2e7d32;
+  color: white;
+  border: 0;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  font-size: 0.8em;
+}
+
+.clear-search button:hover {
+  background-color: rgb(0, 102, 0);
 }
 
 /* books grid */
