@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
-import ListBooks from './ListBooks';
-import SearchBooks from './SearchBooks';
+import ListBooks from './components/ListBooks';
+import SearchBooks from './components/SearchBooks';
 import './App.css';
 
 const bookshelves = [
@@ -15,6 +15,23 @@ class BooksApp extends Component {
   state = {
     books: []
   }
+
+  bookShelfChanger = (bookToMove, newShelf) => {
+    BooksAPI.update(bookToMove, newShelf).then(response => {
+      if (newShelf === 'none') {
+        this.setState(prevState => ({
+          books: prevState.books.filter(book => book.id !== bookToMove.id)
+        }));
+      } else {
+        bookToMove.shelf = newShelf;
+        this.setState(prevState => ({
+          books: prevState.books.filter(book => book.id !== bookToMove.id).concat(bookToMove)
+        }));
+      }
+    }).catch(error => {
+      console.log(`Error: ${error}`);
+    });
+  };
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
@@ -37,12 +54,18 @@ class BooksApp extends Component {
                 <ListBooks
                   bookshelves={bookshelves}
                   books={books}
+                  updateShelf={this.bookShelfChanger}
                 />
               )}
             />
             <Route 
               path="/search" 
-              component={SearchBooks} 
+              render={() => (
+                <SearchBooks
+                  books={books}
+                  updateShelf={this.bookShelfChanger}
+                />
+              )}
             />
           </div>
       </div>

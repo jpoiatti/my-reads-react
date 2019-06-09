@@ -1,14 +1,20 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { debounce } from 'throttle-debounce';
-import * as BooksAPI from './BooksAPI';
+import * as BooksAPI from '../BooksAPI';
 import Book from './Book';
+import PropTypes from 'prop-types';
 
 
 class SearchBooks extends Component {
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    updateShelf: PropTypes.func.isRequired
+  }
+
   state = {
     query: '',
-    books: []
+    searchResultsBooks: []
   }
 
   updateQuery = query => {
@@ -17,14 +23,14 @@ class SearchBooks extends Component {
       this.executeSearch(query);
     }
     else {
-      this.setState({ books: [] })
+      this.setState({ searchResultsBooks: [] })
     }
   }
 
   clearQuery = () => {
     this.setState({ 
       query: '',
-      books: [] 
+      searchResultsBooks: [] 
     })
   }
   
@@ -35,13 +41,14 @@ class SearchBooks extends Component {
   executeSearch = debounce(400, query => {
       return (
         BooksAPI.search(query).then((searchResults) => {
-        this.setState({ books: searchResults })
+        this.setState({ searchResultsBooks: searchResults })
         })
       )
   })
 
   render() {
-    const { query, books } = this.state;
+    const { query, searchResultsBooks } = this.state;
+    const { books, updateShelf } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -58,15 +65,16 @@ class SearchBooks extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          {books.length > 0 && (
+          {searchResultsBooks.length > 0 && (
               <div>
-                <h3>{books.length} books found:</h3>
+                <h3>{searchResultsBooks.length} books found:</h3>
                 <ol className="books-grid">
-                  {books.map(book => (
+                  {searchResultsBooks.map(book => (
                     <Book
                       key={book.id}
-                      shelf={book.shelf}
                       book={book}
+                      updateShelf={updateShelf}
+                      books={books}
                     />
                   ))}
                 </ol>
