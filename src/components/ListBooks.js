@@ -1,9 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
+import PropTypes from 'prop-types';
 
 const ListBooks = props => {
-      const { bookshelves, books } = props;
+
+  ListBooks.propTypes = {
+    bookshelves: PropTypes.array.isRequired,
+    books: PropTypes.array.isRequired,
+    updateShelf: PropTypes.func.isRequired
+  }
+      const { bookshelves, books, updateShelf } = props;
       return (
         <>
           <div className="list-books-content">
@@ -18,6 +25,7 @@ const ListBooks = props => {
                       key={shelf.key}
                       shelf={shelf} 
                       books={filteredBooks}
+                      updateShelf={updateShelf}
                     />
                     )
                   })}

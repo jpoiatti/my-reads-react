@@ -1,9 +1,18 @@
 import React from "react";
 import BookShelfChanger from './BookShelfChanger';
+import PropTypes from 'prop-types';
 
-const Book = ({ book }) => {
+const Book = props => {
+  Book.propTypes = {
+    book: PropTypes.object.isRequired,
+    books: PropTypes.array.isRequired,
+    updateShelf: PropTypes.func.isRequired
+  }
+
+  const { book, books, updateShelf } = props;
+
   return (
-    <li>
+    <li key={book.id}>
       <div className="book">
         <div className="book-top">
           <div 
@@ -18,11 +27,12 @@ const Book = ({ book }) => {
           ></div>
           <BookShelfChanger 
             book={book}
+            updateShelf={updateShelf}
+            books={books}
           />
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors}</div>
-        <div className="book-authors">{book.shelf}</div>
       </div>
     </li>
   );
