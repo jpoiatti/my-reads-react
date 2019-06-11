@@ -1,6 +1,6 @@
 # MyReads Project
 
-This is a working version for the final assessment project for Udacity's React Fundamentals course, My Reads a simple book management application where the user can search for books and add them to categories (or shelves) to organize the their reading status.
+This is a working version for the final assessment project for Udacity's React Fundamentals course, My Reads, a simple book management application where the user can search for books and add them to categories (or shelves) to organize the their reading status.
 Each book state is maintained throughout the whole application, meaning that if given book which is already in some shelf appears in the search results, its current shelf will be shown (instead of 'none' for books that are not placed in any shelf).
 
 ## Getting started
